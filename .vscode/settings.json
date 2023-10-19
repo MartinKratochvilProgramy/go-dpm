@@ -5,8 +5,8 @@
             "server": "localhost",
             "port": 5433,
             "driver": "PostgreSQL",
-            "name": "postgresCont",
-            "database": "postgres",
+            "name": "database",
+            "database": "mydb",
             "username": "postgres"
         }
     ]
