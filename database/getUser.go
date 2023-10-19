@@ -1,17 +1,17 @@
 package database
 
 import (
+	"errors"
 	"go-orm/types"
-	"log"
 
 	"github.com/lib/pq"
 )
 
-func (d *Database) GetUser(username string) *types.User {
+func (d *Database) GetUser(username string) (*types.User, error) {
 	rows, err := d.DB.Query(`SELECT * FROM users WHERE username = $1`, username)
 
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
 	defer rows.Close()
 
@@ -24,7 +24,7 @@ func (d *Database) GetUser(username string) *types.User {
 			createdAt pq.NullTime
 		)
 		if err := rows.Scan(&id, &username, &password, &changedAt, &createdAt); err != nil {
-			log.Fatal(err)
+			return nil, err
 		}
 
 		user := types.User{
@@ -34,8 +34,8 @@ func (d *Database) GetUser(username string) *types.User {
 			CreatedAt: createdAt,
 			ChangedAt: changedAt,
 		}
-		return &user
+		return &user, nil
 	}
 
-	return nil
+	return nil, errors.New("No user found!")
 }

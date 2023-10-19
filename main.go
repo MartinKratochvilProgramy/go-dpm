@@ -6,7 +6,6 @@ import (
 	"log"
 
 	"github.com/joho/godotenv"
-	_ "github.com/lib/pq"
 )
 
 func main() {
@@ -17,7 +16,7 @@ func main() {
 
 	db := database.NewDatabase()
 
-	stocks, err := db.GetPortfolio("Sbeve")
+	user, err := db.GetUser("agfvztg")
 
-	fmt.Println(stocks)
+	fmt.Println(user, err)
 }
