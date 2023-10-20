@@ -1,7 +1,7 @@
 package database
 
 import (
-	"go-orm/types"
+	"go-dpm/types"
 
 	"github.com/lib/pq"
 )

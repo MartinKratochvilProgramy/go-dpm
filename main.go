@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"go-orm/database"
+	"go-dpm/database"
 	"log"
 
 	"github.com/joho/godotenv"

@@ -1,4 +1,4 @@
-module go-orm
+module go-dpm
 
 go 1.21.1
 

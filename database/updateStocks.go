@@ -1,6 +1,6 @@
 package database
 
-import yfinanceapi "go-orm/yFinanceAPI"
+import yfinanceapi "go-dpm/yFinanceAPI"
 
 func (d *Database) UpdateStocks() error {
 	stocks, err := d.GetStocks()

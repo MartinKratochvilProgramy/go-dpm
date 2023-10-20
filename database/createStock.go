@@ -1,7 +1,7 @@
 package database
 
 import (
-	yfinanceapi "go-orm/yFinanceAPI"
+	yfinanceapi "go-dpm/yFinanceAPI"
 )
 
 func (d *Database) CreateStock(ticker string) error {

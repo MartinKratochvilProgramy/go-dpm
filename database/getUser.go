@@ -2,7 +2,7 @@ package database
 
 import (
 	"errors"
-	"go-orm/types"
+	"go-dpm/types"
 
 	"github.com/lib/pq"
 )

@@ -3,7 +3,7 @@ package database
 import (
 	"log"
 
-	"go-orm/types"
+	"go-dpm/types"
 )
 
 func (d *Database) GetPortfolio(username string) ([]types.StockInPortfolio, error) {
