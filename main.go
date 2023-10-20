@@ -16,7 +16,6 @@ func main() {
 
 	db := database.NewDatabase()
 
-	user, err := db.GetUser("agfvztg")
-
-	fmt.Println(user, err)
+	portfolio, err := db.GetPortfolio("Sbeve")
+	fmt.Println(portfolio)
 }

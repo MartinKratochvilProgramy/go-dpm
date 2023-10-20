@@ -25,7 +25,7 @@ func (d *Database) GetPortfolio(username string) ([]types.StockInPortfolio, erro
 	}
 	defer rows.Close()
 
-	var stocks []types.StockInPortfolio
+	var stocksInPortfolio []types.StockInPortfolio
 
 	for rows.Next() {
 		var (
@@ -45,8 +45,8 @@ func (d *Database) GetPortfolio(username string) ([]types.StockInPortfolio, erro
 			Total:        total,
 		}
 
-		stocks = append(stocks, stock)
+		stocksInPortfolio = append(stocksInPortfolio, stock)
 	}
 
-	return stocks, nil
+	return stocksInPortfolio, nil
 }
