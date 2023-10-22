@@ -30,7 +30,7 @@ SELECT * FROM users;
 
 -- STOCKS TABLE --
 
-DROP TABLE stocks;
+DROP TABLE IF EXISTS stocks;
 CREATE TABLE stocks(
     id serial PRIMARY KEY,
     ticker VARCHAR (100) UNIQUE NOT NULL,
@@ -72,7 +72,7 @@ CREATE TABLE stocks_in_portfolio(
 WITH user_stock_ids AS (
   SELECT
     (SELECT id FROM users WHERE username = 'Sbeve') AS user_id,
-    (SELECT id FROM stocks WHERE ticker = 'MSFT') AS stock_id
+    (SELECT id FROM stocks WHERE ticker = 'AAPL') AS stock_id
 )
 INSERT INTO stocks_in_portfolio (user_id, stock_id, shares)
 VALUES (
