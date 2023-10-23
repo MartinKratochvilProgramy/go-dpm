@@ -1,7 +1,6 @@
 package database
 
 import (
-	"errors"
 	"log"
 
 	"go-dpm/types"
@@ -47,5 +46,5 @@ func (d *Database) GetStockInPortfolio(username string, ticker string) (*types.S
 		return &stockInPortfolio, nil
 	}
 
-	return nil, errors.New(ticker + " not found in portfolio user " + username)
+	return nil, nil
 }

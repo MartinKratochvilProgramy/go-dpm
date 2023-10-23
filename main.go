@@ -16,6 +16,9 @@ func main() {
 
 	db := database.NewDatabase()
 
-	stock, err := db.GetStockInPortfolio("Sbeve", "AAPL")
-	fmt.Println(stock.Shares, err)
+	// err = db.AddStockToPortfolio("Sbeve", "TABAK.PR", 5)
+	// fmt.Println(err)
+
+	pf, err := db.GetPortfolio("Sbeve")
+	fmt.Println(pf)
 }

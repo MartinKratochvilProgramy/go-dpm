@@ -15,4 +15,5 @@ type Stock struct {
 	PrevClose    float64
 	CurrentPrice float64
 	UpdatedAt    pq.NullTime
+	Currency     string
 }

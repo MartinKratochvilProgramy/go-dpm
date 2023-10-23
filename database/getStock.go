@@ -1,7 +1,6 @@
 package database
 
 import (
-	"errors"
 	"go-dpm/types"
 
 	"github.com/lib/pq"
@@ -22,8 +21,9 @@ func (d *Database) GetStock(ticker string) (*types.Stock, error) {
 			prevClose    float64
 			currentPrice float64
 			updatedAt    pq.NullTime
+			currency     string
 		)
-		if err := rows.Scan(&id, &ticker, &prevClose, &currentPrice, &updatedAt); err != nil {
+		if err := rows.Scan(&id, &ticker, &prevClose, &currentPrice, &updatedAt, &currency); err != nil {
 			return nil, err
 		}
 
@@ -37,5 +37,5 @@ func (d *Database) GetStock(ticker string) (*types.Stock, error) {
 		return &stock, nil
 	}
 
-	return nil, errors.New(ticker + " not found in stocks table!")
+	return nil, nil
 }

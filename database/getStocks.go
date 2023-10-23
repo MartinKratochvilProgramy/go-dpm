@@ -23,8 +23,9 @@ func (d *Database) GetStocks() ([]types.Stock, error) {
 			prevClose    float64
 			currentPrice float64
 			updatedAt    pq.NullTime
+			currency     string
 		)
-		if err := rows.Scan(&id, &ticker, &prevClose, &currentPrice, &updatedAt); err != nil {
+		if err := rows.Scan(&id, &ticker, &prevClose, &currentPrice, &updatedAt, &currency); err != nil {
 			return nil, err
 		}
 
@@ -34,6 +35,7 @@ func (d *Database) GetStocks() ([]types.Stock, error) {
 			PrevClose:    prevClose,
 			CurrentPrice: currentPrice,
 			UpdatedAt:    updatedAt,
+			Currency:     currency,
 		}
 
 		stocks = append(stocks, stock)

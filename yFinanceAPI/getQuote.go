@@ -10,6 +10,7 @@ import (
 type Quote struct {
 	PrevClose    float64
 	CurrentPrice float64
+	Currency     string
 }
 
 func GetQuote(ticker string) (*Quote, error) {
@@ -37,10 +38,12 @@ func GetQuote(ticker string) (*Quote, error) {
 
 	prevClose := responseData["chart"].(map[string]interface{})["result"].([]interface{})[0].(map[string]interface{})["meta"].(map[string]interface{})["chartPreviousClose"]
 	currentPrice := responseData["chart"].(map[string]interface{})["result"].([]interface{})[0].(map[string]interface{})["meta"].(map[string]interface{})["regularMarketPrice"]
+	currency := responseData["chart"].(map[string]interface{})["result"].([]interface{})[0].(map[string]interface{})["meta"].(map[string]interface{})["currency"]
 
 	quote := Quote{
 		PrevClose:    prevClose.(float64),
 		CurrentPrice: currentPrice.(float64),
+		Currency:     currency.(string),
 	}
 
 	return &quote, nil

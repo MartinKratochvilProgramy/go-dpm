@@ -1,4 +1,7 @@
 {
+    "gopls": {
+        "ui.semanticTokens": true
+    },
     "sqltools.connections": [
         {
             "previewLimit": 50,

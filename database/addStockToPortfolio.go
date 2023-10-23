@@ -24,11 +24,11 @@ func (d *Database) AddStockToPortfolio(username string, ticker string, shares in
 	if stockInPortfolio == nil {
 		// create new portfolio write
 		query := `
-			WITH user_stock_ids AS (
-				SELECT
-				(SELECT id FROM users WHERE username = $1) AS user_id,
-				(SELECT id FROM stocks WHERE ticker = $2) AS stock_id
-			)
+		WITH user_stock_ids AS (
+			SELECT
+			(SELECT id FROM users WHERE username = $1) AS user_id,
+			(SELECT id FROM stocks WHERE ticker = $2) AS stock_id
+		)
 			INSERT INTO stocks_in_portfolio (user_id, stock_id, shares)
 			VALUES (
 				(SELECT user_id FROM user_stock_ids), 
@@ -48,16 +48,15 @@ func (d *Database) AddStockToPortfolio(username string, ticker string, shares in
 				(SELECT id FROM users WHERE username = $1) AS user_id,
 				(SELECT id FROM stocks WHERE ticker = $2) AS stock_id
 			)
-			INSERT INTO stocks_in_portfolio (user_id, stock_id, shares)
-			VALUES (
-				(SELECT user_id FROM user_stock_ids), 
-				(SELECT stock_id FROM user_stock_ids), 
-				$3
-				);`
+			UPDATE stocks_in_portfolio 
+			SET shares = $3
+			WHERE 
+				user_id = (SELECT user_id FROM user_stock_ids)
+				AND
+				stock_id = (SELECT stock_id FROM user_stock_ids) 
+			;`
 
-		_, err = d.DB.Exec(query, username, ticker, shares)
+		_, err = d.DB.Exec(query, username, ticker, newAmount)
 		return err
 	}
-
-	return nil
 }
