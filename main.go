@@ -17,9 +17,12 @@ func main() {
 
 	db := database.NewDatabase()
 
+	db.UpdateStocks()
+
 	ts := time.Now()
-	err = db.UpdateStocks()
+	pf, err := db.GetPortfolio("Sbeve")
 
 	elapsed := time.Since(ts)
 	fmt.Println(err, elapsed)
+	fmt.Println(pf)
 }
