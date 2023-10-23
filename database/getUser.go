@@ -3,12 +3,10 @@ package database
 import (
 	"errors"
 	"go-dpm/types"
-
-	"github.com/lib/pq"
 )
 
 func (d *Database) GetUser(username string) (*types.User, error) {
-	rows, err := d.DB.Query(`SELECT * FROM users WHERE username = $1`, username)
+	rows, err := d.DB.Query(`SELECT username, passowrd, currency FROM users WHERE username = $1`, username)
 
 	if err != nil {
 		return nil, err
@@ -17,24 +15,18 @@ func (d *Database) GetUser(username string) (*types.User, error) {
 
 	for rows.Next() {
 		var (
-			id        int
-			username  string
-			password  string
-			changedAt pq.NullTime
-			createdAt pq.NullTime
-			currency  string
+			username string
+			password string
+			currency string
 		)
-		if err := rows.Scan(&id, &username, &password, &changedAt, &createdAt, &currency); err != nil {
+		if err := rows.Scan(&username, &password, &currency); err != nil {
 			return nil, err
 		}
 
 		user := types.User{
-			Id:        id,
-			Username:  username,
-			Password:  password,
-			CreatedAt: createdAt,
-			ChangedAt: changedAt,
-			Currency:  currency,
+			Username: username,
+			Password: password,
+			Currency: currency,
 		}
 		return &user, nil
 	}
