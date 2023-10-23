@@ -37,6 +37,7 @@ CREATE TABLE stocks(
     prev_close REAL,
     current_price REAL,
     updated_at TIMESTAMP DEFAULT NOW() NOT NULL
+    currency VARCHAR(10)
 );
 
 CREATE OR REPLACE FUNCTION update_stock_updated_at()
@@ -90,3 +91,18 @@ FROM stocks_in_portfolio sp
 JOIN users u ON sp.user_id = u.id
 JOIN stocks s ON sp.stock_id = s.id
 WHERE u.username = 'Sbeve';
+
+SELECT
+    s.ticker AS stock_ticker,
+    s.current_price AS current_price,
+    s.currency AS currency,
+    sp.shares,
+    s.current_price * sp.shares AS total
+FROM
+    stocks_in_portfolio sp
+JOIN
+    users u ON sp.user_id = u.id
+JOIN
+    stocks s ON sp.stock_id = s.id
+WHERE
+    u.username = 'Sbeve';

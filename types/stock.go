@@ -7,6 +7,7 @@ type StockInPortfolio struct {
 	CurrentPrice float64
 	Shares       int
 	Total        float64
+	Currency     string
 }
 
 type Stock struct {

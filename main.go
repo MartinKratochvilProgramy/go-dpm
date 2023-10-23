@@ -21,4 +21,5 @@ func main() {
 
 	pf, err := db.GetPortfolio("Sbeve")
 	fmt.Println(pf)
+	fmt.Println(err)
 }
