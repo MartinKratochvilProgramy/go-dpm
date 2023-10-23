@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS users(
     password VARCHAR (100) NOT NULL,
     created_at TIMESTAMP DEFAULT NOW() NOT NULL,
     changed_at TIMESTAMP
+    currency VARCHAR(10)
 );
 
 CREATE OR REPLACE FUNCTION update_users_changed_at()
@@ -106,3 +107,25 @@ JOIN
     stocks s ON sp.stock_id = s.id
 WHERE
     u.username = 'Sbeve';
+
+-- CONVERSION RATES --
+DROP TABLE IF EXISTS conversion_rates;
+CREATE TABLE conversion_rates(
+    id serial PRIMARY KEY,
+    currency_pair VARCHAR(20),
+    conversion_rate REAL,
+    updated_at TIMESTAMP DEFAULT NOW() NOT NULL
+)
+
+CREATE OR REPLACE FUNCTION update_conversion_rates_updated_at()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.updated_at = NOW();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER conversion_rates_update_trigger
+BEFORE UPDATE ON conversion_rates
+FOR EACH ROW
+EXECUTE FUNCTION update_stock_updated_at();

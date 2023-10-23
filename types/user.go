@@ -8,6 +8,7 @@ type User struct {
 	Password  string
 	ChangedAt pq.NullTime
 	CreatedAt pq.NullTime
+	Currency  string
 }
 
 type Person struct {

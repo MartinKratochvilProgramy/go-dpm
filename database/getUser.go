@@ -22,8 +22,9 @@ func (d *Database) GetUser(username string) (*types.User, error) {
 			password  string
 			changedAt pq.NullTime
 			createdAt pq.NullTime
+			currency  string
 		)
-		if err := rows.Scan(&id, &username, &password, &changedAt, &createdAt); err != nil {
+		if err := rows.Scan(&id, &username, &password, &changedAt, &createdAt, &currency); err != nil {
 			return nil, err
 		}
 
@@ -33,6 +34,7 @@ func (d *Database) GetUser(username string) (*types.User, error) {
 			Password:  password,
 			CreatedAt: createdAt,
 			ChangedAt: changedAt,
+			Currency:  currency,
 		}
 		return &user, nil
 	}

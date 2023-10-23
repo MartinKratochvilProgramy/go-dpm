@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"go-dpm/database"
 	"log"
+	"time"
 
 	"github.com/joho/godotenv"
 )
@@ -16,10 +17,9 @@ func main() {
 
 	db := database.NewDatabase()
 
-	// err = db.AddStockToPortfolio("Sbeve", "TABAK.PR", 5)
-	// fmt.Println(err)
+	ts := time.Now()
+	err = db.UpdateStocks()
 
-	pf, err := db.GetPortfolio("Sbeve")
-	fmt.Println(pf)
-	fmt.Println(err)
+	elapsed := time.Since(ts)
+	fmt.Println(err, elapsed)
 }

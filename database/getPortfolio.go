@@ -53,5 +53,23 @@ func (d *Database) GetPortfolio(username string) ([]types.StockInPortfolio, erro
 		stocksInPortfolio = append(stocksInPortfolio, stock)
 	}
 
+	user, err := d.GetUser(username)
+	if err != nil {
+		return nil, err
+	}
+	userCurrency := user.Currency
+
+	for i := range stocksInPortfolio {
+		if userCurrency != stocksInPortfolio[i].Currency {
+			conversionRate, err := d.GetConversionRate(stocksInPortfolio[i].Currency, userCurrency)
+			if err != nil {
+				return nil, err
+			}
+
+			stocksInPortfolio[i].CurrentPrice *= conversionRate
+			stocksInPortfolio[i].Total *= conversionRate
+		}
+	}
+
 	return stocksInPortfolio, nil
 }
