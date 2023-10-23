@@ -2,7 +2,7 @@
 CREATE TABLE IF NOT EXISTS users(
     id serial PRIMARY KEY,
     username VARCHAR (100) UNIQUE NOT NULL,
-    password VARCHAR (100) NOT NULL,
+    password_hash VARCHAR (100) NOT NULL,
     created_at TIMESTAMP DEFAULT NOW() NOT NULL,
     changed_at TIMESTAMP
     currency VARCHAR(10)
