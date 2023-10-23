@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
+	"go-dpm/bcrypt"
 	"go-dpm/database"
 	"log"
-	"time"
 
 	"github.com/joho/godotenv"
 )
@@ -17,12 +17,9 @@ func main() {
 
 	db := database.NewDatabase()
 
-	db.UpdateStocks()
+	user, err := db.GetUser("Martin")
+	fmt.Println(err)
 
-	ts := time.Now()
-	pf, err := db.GetPortfolio("Sbeve")
+	fmt.Println(bcrypt.CheckPasswordHash("password", user.PasswordHash))
 
-	elapsed := time.Since(ts)
-	fmt.Println(err, elapsed)
-	fmt.Println(pf)
 }

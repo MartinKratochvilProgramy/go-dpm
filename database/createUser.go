@@ -1,9 +1,16 @@
 package database
 
-func (d *Database) CreateUser(username string, password string) error {
-	query := "INSERT INTO users (username, password) VALUES ($1, $2);"
+import "go-dpm/bcrypt"
 
-	_, err := d.DB.Exec(query, username, password)
+func (d *Database) CreateUser(username string, password string, currency string) error {
+	query := "INSERT INTO users (username, password_hash, currency) VALUES ($1, $2, $3);"
+
+	passwordHash, err := bcrypt.HashPassword(password)
+	if err != nil {
+		return err
+	}
+
+	_, err = d.DB.Exec(query, username, passwordHash, currency)
 
 	return err
 }

@@ -6,7 +6,7 @@ import (
 )
 
 func (d *Database) GetUser(username string) (*types.User, error) {
-	rows, err := d.DB.Query(`SELECT username, passowrd, currency FROM users WHERE username = $1`, username)
+	rows, err := d.DB.Query(`SELECT username, password_hash, currency FROM users WHERE username = $1`, username)
 
 	if err != nil {
 		return nil, err
@@ -24,9 +24,9 @@ func (d *Database) GetUser(username string) (*types.User, error) {
 		}
 
 		user := types.User{
-			Username: username,
-			Password: password,
-			Currency: currency,
+			Username:     username,
+			PasswordHash: password,
+			Currency:     currency,
 		}
 		return &user, nil
 	}

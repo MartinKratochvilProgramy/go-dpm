@@ -1,9 +1,9 @@
 package types
 
 type User struct {
-	Username string
-	Password string
-	Currency string
+	Username     string
+	PasswordHash string
+	Currency     string
 }
 
 type Person struct {
