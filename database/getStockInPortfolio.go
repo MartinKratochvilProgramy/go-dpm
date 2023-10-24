@@ -1,7 +1,8 @@
 package database
 
 import (
-	"log"
+	"errors"
+	"fmt"
 
 	"go-dpm/types"
 )
@@ -11,7 +12,7 @@ func (d *Database) GetStockInPortfolio(username string, ticker string) (*types.S
 				SELECT
 					s.ticker AS ticker,
 					s.current_price AS current_price,
-					sp.shares,
+					sp.shares
 				FROM stocks_in_portfolio sp
 				JOIN users u ON sp.user_id = u.id
 				JOIN stocks s ON sp.stock_id = s.id
@@ -20,7 +21,7 @@ func (d *Database) GetStockInPortfolio(username string, ticker string) (*types.S
 	rows, err := d.DB.Query(query, username, ticker)
 
 	if err != nil {
-		return nil, err
+		return nil, errors.New(fmt.Sprint("Error at GetStockInPortfolio", err))
 	}
 	defer rows.Close()
 
@@ -31,7 +32,7 @@ func (d *Database) GetStockInPortfolio(username string, ticker string) (*types.S
 			shares       int
 		)
 		if err := rows.Scan(&ticker, &currentPrice, &shares); err != nil {
-			log.Fatal(err)
+			return nil, errors.New(fmt.Sprint("Error at GetStockInPortfolio", err))
 		}
 
 		stockInPortfolio := types.StockInPortfolio{

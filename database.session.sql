@@ -1,10 +1,11 @@
 -- USERS TABLE --
-CREATE TABLE IF NOT EXISTS users(
+DROP TABLE IF EXISTS users;
+CREATE TABLE users(
     id serial PRIMARY KEY,
     username VARCHAR (100) UNIQUE NOT NULL,
     password_hash VARCHAR (100) NOT NULL,
     created_at TIMESTAMP DEFAULT NOW() NOT NULL,
-    changed_at TIMESTAMP
+    changed_at TIMESTAMP,
     currency VARCHAR(10)
 );
 
@@ -21,11 +22,11 @@ BEFORE UPDATE ON users
 FOR EACH ROW
 EXECUTE FUNCTION update_users_changed_at();
 
-INSERT INTO users(username, password) VALUES('Sbeve', 'SbevePass');
+INSERT INTO users(username, password_hash, currency) VALUES('Sbeve', 'SbevePass', 'CZK');
 
-UPDATE users
-SET username = 'Sbeve'
-WHERE username = '_Sbeve';
+-- UPDATE users
+-- SET username = 'Sbeve'
+-- WHERE username = '_Sbeve';
 
 SELECT * FROM users;
 
@@ -37,7 +38,7 @@ CREATE TABLE stocks(
     ticker VARCHAR (100) UNIQUE NOT NULL,
     prev_close REAL,
     current_price REAL,
-    updated_at TIMESTAMP DEFAULT NOW() NOT NULL
+    updated_at TIMESTAMP DEFAULT NOW() NOT NULL,
     currency VARCHAR(10)
 );
 
@@ -54,8 +55,8 @@ BEFORE UPDATE ON stocks
 FOR EACH ROW
 EXECUTE FUNCTION update_stock_updated_at();
 
-INSERT INTO stocks(ticker, prev_close, current_price) 
-VALUES('AAPL', 153.2, 154.1);
+INSERT INTO stocks(ticker, prev_close, current_price, currency) 
+VALUES('AAPL', 153.2, 154.1, 'USD');
 
 UPDATE stocks
 SET current_price = 55.1
@@ -115,7 +116,7 @@ CREATE TABLE conversion_rates(
     currency_pair VARCHAR(20),
     conversion_rate REAL,
     updated_at TIMESTAMP DEFAULT NOW() NOT NULL
-)
+);
 
 CREATE OR REPLACE FUNCTION update_conversion_rates_updated_at()
 RETURNS TRIGGER AS $$

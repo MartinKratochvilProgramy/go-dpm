@@ -1,7 +1,7 @@
 package main
 
 import (
-	"go-dpm/router"
+	"go-dpm/database"
 	"log"
 
 	"github.com/joho/godotenv"
@@ -13,7 +13,10 @@ func main() {
 		log.Fatal("Error loading .env file")
 	}
 
-	router := router.NewRouter()
+	db := database.NewDatabase()
+	// router := router.NewRouter()
 
-	router.Run()
+	err = db.RemoveUnusedStocks()
+
+	// router.Run()
 }
