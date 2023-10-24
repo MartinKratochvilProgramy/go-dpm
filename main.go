@@ -2,6 +2,7 @@ package main
 
 import (
 	"go-dpm/database"
+	"go-dpm/router"
 	"log"
 
 	"github.com/joho/godotenv"
@@ -14,9 +15,9 @@ func main() {
 	}
 
 	db := database.NewDatabase()
-	// router := router.NewRouter()
+	router := router.NewRouter(db)
 
 	err = db.RemoveUnusedStocks()
 
-	// router.Run()
+	router.Run()
 }

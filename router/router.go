@@ -2,9 +2,9 @@ package router
 
 import (
 	"fmt"
+	"go-dpm/database"
 	"net/http"
 	"os"
-	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -12,24 +12,26 @@ import (
 type Router struct {
 	R          *gin.Engine
 	ServerAddr *string
+	DB         *database.Database
 }
 
-func NewRouter() *Router {
-	serverAddr := fmt.Sprint(":", os.Getenv("server_addr"))
+func NewRouter(db *database.Database) *Router {
+	serverAddr := fmt.Sprint("127.0.0.1:", os.Getenv("server_addr"))
 
 	router := gin.Default()
 
-	registerRoutes(router)
-
 	return &Router{
-		R:          router,
 		ServerAddr: &serverAddr,
+		R:          router,
+		DB:         db,
 	}
 }
 
 func registerRoutes(router *gin.Engine) {
-	router.GET("/", func(c *gin.Context) {
-		time.Sleep(10 * time.Millisecond)
-		c.JSON(http.StatusOK, "message")
-	})
+	user := router.Group("/user")
+	{
+		user.GET("/test", func(c *gin.Context) {
+			c.JSON(http.StatusOK, "user test")
+		})
+	}
 }
