@@ -1,9 +1,7 @@
 package main
 
 import (
-	"fmt"
-	"go-dpm/bcrypt"
-	"go-dpm/database"
+	"go-dpm/router"
 	"log"
 
 	"github.com/joho/godotenv"
@@ -15,11 +13,7 @@ func main() {
 		log.Fatal("Error loading .env file")
 	}
 
-	db := database.NewDatabase()
+	router := router.NewRouter()
 
-	user, err := db.GetUser("Martin")
-	fmt.Println(err)
-
-	fmt.Println(bcrypt.CheckPasswordHash("password", user.PasswordHash))
-
+	router.Run()
 }
