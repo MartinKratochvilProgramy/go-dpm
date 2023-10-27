@@ -2,7 +2,7 @@ package database
 
 import (
 	"errors"
-	"go-dpm/bcrypt"
+	"go-dpm/utils/bcrypt"
 )
 
 func (d *Database) CreateUser(username string, password string, currency string) error {

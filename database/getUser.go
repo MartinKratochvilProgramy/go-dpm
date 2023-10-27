@@ -6,7 +6,7 @@ import (
 )
 
 func (d *Database) GetUser(username string) (*types.User, error) {
-	rows, err := d.DB.Query(`SELECT username, password_hash, currency FROM users WHERE username = $1`, username)
+	rows, err := d.DB.Query(`SELECT id, username, password_hash, currency FROM users WHERE username = $1`, username)
 
 	if err != nil {
 		return nil, err
@@ -15,15 +15,17 @@ func (d *Database) GetUser(username string) (*types.User, error) {
 
 	for rows.Next() {
 		var (
+			id       int
 			username string
 			password string
 			currency string
 		)
-		if err := rows.Scan(&username, &password, &currency); err != nil {
+		if err := rows.Scan(&id, &username, &password, &currency); err != nil {
 			return nil, err
 		}
 
 		user := types.User{
+			Id:           id,
 			Username:     username,
 			PasswordHash: password,
 			Currency:     currency,
@@ -31,5 +33,5 @@ func (d *Database) GetUser(username string) (*types.User, error) {
 		return &user, nil
 	}
 
-	return nil, errors.New("No user found!")
+	return nil, errors.New("User not found.")
 }

@@ -17,7 +17,5 @@ func main() {
 	db := database.NewDatabase()
 	router := router.NewRouter(db)
 
-	err = db.RemoveUnusedStocks()
-
 	router.Run()
 }

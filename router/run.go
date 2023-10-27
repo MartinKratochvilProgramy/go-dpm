@@ -1,6 +1,7 @@
 package router
 
 import (
+	"go-dpm/middleware"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -11,9 +12,14 @@ func (r *Router) Run() {
 		c.JSON(http.StatusOK, "message")
 	})
 
-	r.R.POST("/register", r.register)
+	user := r.R.Group("/user")
+	{
+		user.POST("/register", r.register)
+		user.POST("/login", r.login)
+	}
 
 	portfolio := r.R.Group("/portfolio")
+	portfolio.Use(middleware.JwtAuthMiddleware())
 	{
 		portfolio.POST("/get", r.getPortfolio)
 		portfolio.POST("/add", r.addStockToPortfolio)
