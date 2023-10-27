@@ -19,7 +19,10 @@ func (r *Router) removeStockFromPortfolio(c *gin.Context) {
 		return
 	}
 
-	fmt.Println(body)
+	if body.Shares <= 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Amount of shares has to be positive."})
+		return
+	}
 
 	err := r.DB.RemoveStockFromPortfolio(body.Username, body.Ticker, body.Shares)
 	if err != nil {
@@ -27,6 +30,6 @@ func (r *Router) removeStockFromPortfolio(c *gin.Context) {
 		return
 	}
 
-	message := fmt.Sprintf("Succesfully removed %s %d", body.Ticker, body.Shares)
-	c.JSON(http.StatusOK, gin.H{"portfolio": message})
+	message := fmt.Sprintf("Succesfully removed %d %s.", body.Shares, body.Ticker)
+	c.JSON(http.StatusOK, gin.H{"message": message})
 }

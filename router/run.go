@@ -13,11 +13,16 @@ func (r *Router) Run() {
 
 	r.R.POST("/register", r.register)
 
-	v1 := r.R.Group("/portfolio")
+	portfolio := r.R.Group("/portfolio")
 	{
-		v1.POST("/get_portfolio", r.getPortfolio)
-		v1.POST("/add_stock", r.addStockToPortfolio)
-		v1.POST("/remove_stock", r.removeStockFromPortfolio)
+		portfolio.POST("/get", r.getPortfolio)
+		portfolio.POST("/add", r.addStockToPortfolio)
+		portfolio.POST("/remove", r.removeStockFromPortfolio)
+	}
+
+	stocks := r.R.Group("/stocks")
+	{
+		stocks.PUT("/update", r.updateStocks)
 	}
 
 	r.R.Run(*r.ServerAddr)

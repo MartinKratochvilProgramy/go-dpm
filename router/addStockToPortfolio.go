@@ -25,6 +25,11 @@ func (r *Router) addStockToPortfolio(c *gin.Context) {
 		return
 	}
 
+	if body.Shares <= 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Amount of shares has to be positive."})
+		return
+	}
+
 	message := fmt.Sprintf("Succesfully added %s %d", body.Ticker, body.Shares)
-	c.JSON(http.StatusOK, gin.H{"portfolio": message})
+	c.JSON(http.StatusOK, gin.H{"message": message})
 }
