@@ -1,16 +1,17 @@
 package router
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
-func (r *Router) register(c *gin.Context) {
+func (r *Router) addStockToPortfolio(c *gin.Context) {
 	var body struct {
 		Username string `json:"username" binding:"required"`
-		Password string `json:"password" binding:"required"`
-		Currency string `json:"currency" binding:"required"`
+		Ticker   string `json:"ticker" binding:"required"`
+		Shares   int    `json:"shares" binding:"required"`
 	}
 
 	if err := c.ShouldBindJSON(&body); err != nil {
@@ -18,11 +19,12 @@ func (r *Router) register(c *gin.Context) {
 		return
 	}
 
-	err := r.DB.CreateUser(body.Username, body.Password, body.Currency)
+	err := r.DB.AddStockToPortfolio(body.Username, body.Ticker, body.Shares)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "User created succesfully!"})
+	message := fmt.Sprintf("Succesfully added %s %d", body.Ticker, body.Shares)
+	c.JSON(http.StatusOK, gin.H{"portfolio": message})
 }

@@ -11,9 +11,14 @@ func (r *Router) Run() {
 		c.JSON(http.StatusOK, "message")
 	})
 
-	r.R.POST("/foo", r.foo)
-
 	r.R.POST("/register", r.register)
+
+	v1 := r.R.Group("/portfolio")
+	{
+		v1.POST("/get_portfolio", r.getPortfolio)
+		v1.POST("/add_stock", r.addStockToPortfolio)
+		v1.POST("/remove_stock", r.removeStockFromPortfolio)
+	}
 
 	r.R.Run(*r.ServerAddr)
 }

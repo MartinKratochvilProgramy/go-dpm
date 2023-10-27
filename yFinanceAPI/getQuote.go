@@ -2,6 +2,7 @@ package yfinanceapi
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -18,6 +19,10 @@ func GetQuote(ticker string) (*Quote, error) {
 
 	// Send an HTTP GET request
 	response, err := http.Get(url)
+	if response.StatusCode == 404 {
+		errMessage := fmt.Sprintf("Ticker %s not found.", ticker)
+		return nil, errors.New(errMessage)
+	}
 	if err != nil {
 		return nil, err
 	}

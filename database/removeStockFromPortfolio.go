@@ -1,9 +1,19 @@
 package database
 
+import (
+	"errors"
+	"fmt"
+)
+
 func (d *Database) RemoveStockFromPortfolio(username string, ticker string, sharesToSubtract int) error {
 	stockInPortfolio, err := d.GetStockInPortfolio(username, ticker)
+	fmt.Println(stockInPortfolio)
 	if err != nil {
 		return err
+	}
+	if stockInPortfolio == nil {
+		errMessage := fmt.Sprintf("Ticker %s not found in %s's portfoio.", ticker, username)
+		return errors.New(errMessage)
 	}
 
 	newAmount := stockInPortfolio.Shares - sharesToSubtract

@@ -11,9 +11,9 @@ func (d *Database) AddStockToPortfolio(username string, ticker string, shares in
 		// create new stock write
 		err = d.CreateStock(ticker)
 		if err != nil {
-			fmt.Println("Created new stock " + ticker)
 			return err
 		}
+		fmt.Println("Created new stock " + ticker)
 	}
 
 	stockInPortfolio, err := d.GetStockInPortfolio(username, ticker)
