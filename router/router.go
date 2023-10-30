@@ -3,7 +3,6 @@ package router
 import (
 	"fmt"
 	"go-dpm/database"
-	"net/http"
 	"os"
 	"time"
 
@@ -28,9 +27,9 @@ func NewRouter(db *database.Database) *Router {
 		AllowHeaders:     []string{"Origin"},
 		ExposeHeaders:    []string{"Content-Length"},
 		AllowCredentials: true,
-		AllowOriginFunc: func(origin string) bool {
-			return origin == "https://github.com"
-		},
+		// AllowOriginFunc: func(origin string) bool {
+		// 	return origin == "https://github.com"
+		// },
 		MaxAge: 12 * time.Hour,
 	}))
 
@@ -38,14 +37,5 @@ func NewRouter(db *database.Database) *Router {
 		ServerAddr: &serverAddr,
 		R:          router,
 		DB:         db,
-	}
-}
-
-func registerRoutes(router *gin.Engine) {
-	user := router.Group("/user")
-	{
-		user.GET("/test", func(c *gin.Context) {
-			c.JSON(http.StatusOK, "user test")
-		})
 	}
 }
