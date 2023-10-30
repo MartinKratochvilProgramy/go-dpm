@@ -14,10 +14,14 @@ type Router struct {
 	R          *gin.Engine
 	ServerAddr *string
 	DB         *database.Database
+	AdminAuth  gin.HandlerFunc
 }
 
 func NewRouter(db *database.Database) *Router {
 	serverAddr := fmt.Sprint("127.0.0.1:", os.Getenv("server_addr"))
+	AdminAuth := gin.BasicAuth(gin.Accounts{
+		os.Getenv("admin_username"): os.Getenv("admin_password"),
+	})
 
 	router := gin.Default()
 
@@ -37,5 +41,6 @@ func NewRouter(db *database.Database) *Router {
 		ServerAddr: &serverAddr,
 		R:          router,
 		DB:         db,
+		AdminAuth:  AdminAuth,
 	}
 }

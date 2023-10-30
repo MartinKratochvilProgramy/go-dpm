@@ -3,14 +3,13 @@ package router
 import (
 	"go-dpm/middleware"
 	"net/http"
-	"os"
 
 	"github.com/gin-gonic/gin"
 )
 
 func (r *Router) Run() {
 	r.R.GET("/", func(c *gin.Context) {
-		c.JSON(http.StatusOK, "message")
+		c.JSON(http.StatusOK, "OK")
 	})
 
 	user := r.R.Group("/user")
@@ -27,17 +26,13 @@ func (r *Router) Run() {
 		portfolio.POST("/remove", r.removeStockFromPortfolio)
 	}
 
-	stocks := r.R.Group("/stocks", gin.BasicAuth(gin.Accounts{
-		os.Getenv("admin_username"): os.Getenv("admin_password"),
-	}))
+	stocks := r.R.Group("/stocks", r.AdminAuth)
 	{
 		stocks.PUT("/update", r.updateStocks)
 		stocks.PUT("/remove_unused", r.removeUnusedStocks)
 	}
 
-	conversionRates := r.R.Group("/conversion_rates", gin.BasicAuth(gin.Accounts{
-		os.Getenv("admin_username"): os.Getenv("admin_password"),
-	}))
+	conversionRates := r.R.Group("/conversion_rates", r.AdminAuth)
 	{
 		conversionRates.PUT("/update", r.updateConversionRates)
 	}
