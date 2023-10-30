@@ -8,10 +8,16 @@ import (
 )
 
 func (r *Router) removeStockFromPortfolio(c *gin.Context) {
+	username := c.Request.Header.Get("username")
+	if username == "" {
+		c.String(http.StatusBadRequest, "Username missing in Header.")
+		c.Abort()
+		return
+	}
+
 	var body struct {
-		Username string `json:"username" binding:"required"`
-		Ticker   string `json:"ticker" binding:"required"`
-		Shares   int    `json:"shares" binding:"required"`
+		Ticker string `json:"ticker" binding:"required"`
+		Shares int    `json:"shares" binding:"required"`
 	}
 
 	if err := c.ShouldBindJSON(&body); err != nil {
@@ -24,7 +30,7 @@ func (r *Router) removeStockFromPortfolio(c *gin.Context) {
 		return
 	}
 
-	err := r.DB.RemoveStockFromPortfolio(body.Username, body.Ticker, body.Shares)
+	err := r.DB.RemoveStockFromPortfolio(username, body.Ticker, body.Shares)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return

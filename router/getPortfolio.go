@@ -7,16 +7,14 @@ import (
 )
 
 func (r *Router) getPortfolio(c *gin.Context) {
-	var body struct {
-		Username string `json:"username" binding:"required"`
-	}
-
-	if err := c.ShouldBindJSON(&body); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	username := c.Request.Header.Get("username")
+	if username == "" {
+		c.String(http.StatusBadRequest, "Username missing in Header.")
+		c.Abort()
 		return
 	}
 
-	pf, err := r.DB.GetPortfolio(body.Username)
+	pf, err := r.DB.GetPortfolio(username)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
