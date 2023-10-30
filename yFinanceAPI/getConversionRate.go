@@ -10,7 +10,6 @@ import (
 func GetConversionRate(currencyPair string) (float64, error) {
 	url := fmt.Sprint("https://query1.finance.yahoo.com/v8/finance/chart/", currencyPair, "=X")
 
-	// Send an HTTP GET request
 	response, err := http.Get(url)
 	if err != nil {
 		return 0, err
