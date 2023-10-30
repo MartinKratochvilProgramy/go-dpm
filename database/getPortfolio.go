@@ -82,7 +82,6 @@ func (d *Database) getStocksInPortfolio(username string) ([]types.StockInPortfol
 			currency     string
 		)
 		if err := rows.Scan(&ticker, &currentPrice, &shares, &currency); err != nil {
-			fmt.Println(err)
 			return nil, err
 		}
 

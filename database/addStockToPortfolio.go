@@ -1,7 +1,5 @@
 package database
 
-import "fmt"
-
 func (d *Database) AddStockToPortfolio(username string, ticker string, shares int) error {
 	stock, err := d.GetStock(ticker)
 	if err != nil {
@@ -13,7 +11,6 @@ func (d *Database) AddStockToPortfolio(username string, ticker string, shares in
 		if err != nil {
 			return err
 		}
-		fmt.Println("Created new stock " + ticker)
 	}
 
 	stockInPortfolio, err := d.GetStockInPortfolio(username, ticker)

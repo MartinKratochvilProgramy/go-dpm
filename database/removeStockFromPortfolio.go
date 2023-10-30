@@ -7,7 +7,6 @@ import (
 
 func (d *Database) RemoveStockFromPortfolio(username string, ticker string, sharesToSubtract int) error {
 	stockInPortfolio, err := d.GetStockInPortfolio(username, ticker)
-	fmt.Println(stockInPortfolio)
 	if err != nil {
 		return err
 	}
