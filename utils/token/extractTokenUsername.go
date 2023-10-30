@@ -1,15 +1,15 @@
 package token
 
 import (
+	"errors"
 	"fmt"
 	"os"
-	"strconv"
 
 	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 )
 
-func ExtractTokenID(c *gin.Context) (uint, error) {
+func ExtractTokenUsername(c *gin.Context) (string, error) {
 
 	tokenString := ExtractToken(c)
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
@@ -19,15 +19,15 @@ func ExtractTokenID(c *gin.Context) (uint, error) {
 		return []byte(os.Getenv("API_SECRET")), nil
 	})
 	if err != nil {
-		return 0, err
+		return "", err
 	}
 	claims, ok := token.Claims.(jwt.MapClaims)
 	if ok && token.Valid {
-		uid, err := strconv.ParseUint(fmt.Sprintf("%.0f", claims["user_id"]), 10, 32)
-		if err != nil {
-			return 0, err
+		username := claims["username"]
+		if username == "" {
+			return "", errors.New("Username not found in claims.")
 		}
-		return uint(uid), nil
+		return username.(string), nil
 	}
-	return 0, nil
+	return "", nil
 }

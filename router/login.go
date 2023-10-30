@@ -34,7 +34,7 @@ func (r *Router) login(c *gin.Context) {
 		return
 	}
 
-	token, err := token.GenerateToken(uint(user.Id))
+	token, err := token.GenerateToken(user.Username)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
