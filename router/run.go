@@ -26,13 +26,13 @@ func (r *Router) Run() {
 		portfolio.POST("/remove", r.removeStockFromPortfolio)
 	}
 
-	stocks := r.R.Group("/stocks", r.AdminAuth)
+	stocks := r.R.Group("/stocks", r.adminAuth)
 	{
 		stocks.PUT("/update", r.updateStocks)
 		stocks.PUT("/remove_unused", r.removeUnusedStocks)
 	}
 
-	conversionRates := r.R.Group("/conversion_rates", r.AdminAuth)
+	conversionRates := r.R.Group("/conversion_rates", r.adminAuth)
 	{
 		conversionRates.PUT("/update", r.updateConversionRates)
 	}
