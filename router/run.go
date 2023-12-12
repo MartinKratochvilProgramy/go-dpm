@@ -18,8 +18,7 @@ func (r *Router) Run() {
 		user.POST("/login", r.login)
 	}
 
-	portfolio := r.R.Group("/portfolio")
-	portfolio.Use(middleware.JwtAuthMiddleware())
+	portfolio := r.R.Group("/portfolio", middleware.JwtAuthMiddleware())
 	{
 		portfolio.GET("/get", r.getPortfolio)
 		portfolio.POST("/add", r.addStockToPortfolio)

@@ -10,7 +10,7 @@ import (
 func JwtAuthMiddleware() gin.HandlerFunc {
 	// check if encoded username in token and username provided in headers match
 	return func(c *gin.Context) {
-		err := token.TokenValid(c)
+		err := token.ValidateToken(c)
 		if err != nil {
 			c.String(http.StatusUnauthorized, "Unauthorized")
 			c.Abort()
